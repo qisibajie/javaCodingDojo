@@ -19,7 +19,7 @@
     </build>
     <packaging>jar</packaging>
 
-    <name>TDD</name>
+    <name>coding dojo</name>
     <url>http://maven.apache.org</url>
 
     <properties>
