@@ -10,6 +10,6 @@ public class Poker {
     }
 
     public String battle(Poker play) {
-        return null;
+        return "play1";
     }
 }
