@@ -127,13 +127,12 @@ public class PersonTest {
 
     @Test
     public void testStaticMethodDoAnswer() throws Exception {
-
         mockStatic(CommonPrinter.class);
         PersonPrinterAnswer personPrinterAnswer = new PersonPrinterAnswer();
         PowerMockito.doAnswer(personPrinterAnswer).when(CommonPrinter.class, "printPerson", anyObject());
         Student student = new Student();
 
-        student.staticDoAnswerHighSchoolStudent();
+        student.callStaticDoAnswerHighSchoolStudent();
 
         HighSchoolStudent highSchoolStudent = (HighSchoolStudent) personPrinterAnswer.getPerson();
         assertThat(highSchoolStudent.getId(), is(123456789));

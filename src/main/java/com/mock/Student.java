@@ -47,7 +47,7 @@ public class Student implements Person {
         highSchoolStudent.setGrade(3);
     }
 
-    public void staticDoAnswerHighSchoolStudent(){
+    public void callStaticDoAnswerHighSchoolStudent(){
         HighSchoolStudent highSchoolStudent = new HighSchoolStudent();
         highSchoolStudent.setName("highSchoolStudent");
         highSchoolStudent.setAge(10);
