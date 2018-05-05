@@ -10,12 +10,11 @@ import org.powermock.reflect.Whitebox;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Student.class,PersonType.class})
+@PrepareForTest({Student.class, PersonType.class, CommonPrinter.class})
 public class PersonTest {
 
     @Test
@@ -66,7 +65,7 @@ public class PersonTest {
     }
 
     @Test
-    public void testMockStaticMethod(){
+    public void testMockStaticMethod() {
         mockStatic(Student.class);
         String mockStaticMethod = "mockStaticMethod";
         when(Student.getStaticMethod()).thenReturn(mockStaticMethod);
@@ -85,7 +84,7 @@ public class PersonTest {
     }
 
     @Test
-    public void testMockEnum(){
+    public void testMockEnum() {
         PersonType personType = PowerMockito.mock(PersonType.class);
         Whitebox.setInternalState(PersonType.class, "N", personType);
         when(personType.getType()).thenReturn("mockN");
@@ -95,14 +94,48 @@ public class PersonTest {
     }
 
     @Test
-    public void testFakeObject(){
+    public void testFakeObject() {
         Student student = new Student();
         PersonPrinter personPrinter = new FakePersonPrinter();
         student.setPersonPrinter(personPrinter);
+
         student.doAnswerHighSchoolStudent();
 
         HighSchoolStudent highSchoolStudent = ((FakePersonPrinter) personPrinter).getHighSchoolStudent();
+        assertThat(highSchoolStudent.getId(), is(123456789));
+        assertThat(highSchoolStudent.getAge(), is(10));
+        assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));
+        assertThat(highSchoolStudent.getGrade(), is(3));
+    }
 
+    @Test
+    public void testInterfaceDoAnswer() {
+        PersonPrinter personPrinter = spy(PersonPrinter.class);
+        PersonPrinterAnswer personPrinterAnswer = new PersonPrinterAnswer();
+        doAnswer(personPrinterAnswer).when(personPrinter).printPerson(anyObject());
+        Student student = new Student();
+        student.setPersonPrinter(personPrinter);
+
+        student.doAnswerHighSchoolStudent();
+
+        HighSchoolStudent highSchoolStudent = (HighSchoolStudent) personPrinterAnswer.getPerson();
+        assertThat(highSchoolStudent.getId(), is(123456789));
+        assertThat(highSchoolStudent.getAge(), is(10));
+        assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));
+        assertThat(highSchoolStudent.getGrade(), is(3));
+    }
+
+    @Test
+    public void testStaticMethodDoAnswer() throws Exception {
+
+        mockStatic(CommonPrinter.class);
+        PersonPrinterAnswer personPrinterAnswer = new PersonPrinterAnswer();
+        PowerMockito.doAnswer(personPrinterAnswer).when(CommonPrinter.class, "printPerson", anyObject());
+        Student student = new Student();
+
+        student.staticDoAnswerHighSchoolStudent();
+
+        HighSchoolStudent highSchoolStudent = (HighSchoolStudent) personPrinterAnswer.getPerson();
         assertThat(highSchoolStudent.getId(), is(123456789));
         assertThat(highSchoolStudent.getAge(), is(10));
         assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));

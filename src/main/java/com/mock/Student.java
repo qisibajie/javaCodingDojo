@@ -47,6 +47,15 @@ public class Student implements Person {
         highSchoolStudent.setGrade(3);
     }
 
+    public void staticDoAnswerHighSchoolStudent(){
+        HighSchoolStudent highSchoolStudent = new HighSchoolStudent();
+        highSchoolStudent.setName("highSchoolStudent");
+        highSchoolStudent.setAge(10);
+        highSchoolStudent.setId(123456789);
+        CommonPrinter.printPerson(highSchoolStudent);
+        highSchoolStudent.setGrade(3);
+    }
+
     public void setPersonPrinter(PersonPrinter personPrinter) {
         this.personPrinter = personPrinter;
     }
