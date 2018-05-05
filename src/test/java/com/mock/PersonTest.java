@@ -94,4 +94,19 @@ public class PersonTest {
         assertThat(PersonType.S.getType(), is("student"));
     }
 
+    @Test
+    public void testFakeObject(){
+        Student student = new Student();
+        PersonPrinter personPrinter = new FakePersonPrinter();
+        student.setPersonPrinter(personPrinter);
+        student.doAnswerHighSchoolStudent();
+
+        HighSchoolStudent highSchoolStudent = ((FakePersonPrinter) personPrinter).getHighSchoolStudent();
+
+        assertThat(highSchoolStudent.getId(), is(123456789));
+        assertThat(highSchoolStudent.getAge(), is(10));
+        assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));
+        assertThat(highSchoolStudent.getGrade(), is(3));
+    }
+
 }

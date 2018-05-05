@@ -3,6 +3,7 @@ package com.mock;
 public class Student implements Person {
 
     private int age;
+    private PersonPrinter personPrinter;
 
     public Student(){
 
@@ -35,5 +36,18 @@ public class Student implements Person {
 
     public String callPrivateMethod(){
         return getPrivateMethod();
+    }
+
+    public void doAnswerHighSchoolStudent(){
+        HighSchoolStudent highSchoolStudent = new HighSchoolStudent();
+        highSchoolStudent.setName("highSchoolStudent");
+        highSchoolStudent.setAge(10);
+        highSchoolStudent.setId(123456789);
+        personPrinter.printPerson(highSchoolStudent);
+        highSchoolStudent.setGrade(3);
+    }
+
+    public void setPersonPrinter(PersonPrinter personPrinter) {
+        this.personPrinter = personPrinter;
     }
 }
