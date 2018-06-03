@@ -125,6 +125,7 @@ public class PersonTest {
         assertThat(highSchoolStudent.getGrade(), is(3));
     }
 
+
     @Test
     public void testStaticMethodDoAnswer() throws Exception {
         mockStatic(CommonPrinter.class);
@@ -135,6 +136,39 @@ public class PersonTest {
         student.callStaticDoAnswerHighSchoolStudent();
 
         HighSchoolStudent highSchoolStudent = (HighSchoolStudent) personPrinterAnswer.getPerson();
+        assertThat(highSchoolStudent.getId(), is(123456789));
+        assertThat(highSchoolStudent.getAge(), is(10));
+        assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));
+        assertThat(highSchoolStudent.getGrade(), is(3));
+    }
+
+    @Test
+    public void testStaticBaseMockAnswer() throws Exception {
+        mockStatic(CommonPrinter.class);
+        BaseMockAnswer baseMockAnswer = new BaseMockAnswer();
+        PowerMockito.doAnswer(baseMockAnswer).when(CommonPrinter.class, "printPerson", anyObject());
+        Student student = new Student();
+
+        student.callStaticDoAnswerHighSchoolStudent();
+
+        HighSchoolStudent highSchoolStudent = (HighSchoolStudent) baseMockAnswer.getArguments().get(0);
+        assertThat(highSchoolStudent.getId(), is(123456789));
+        assertThat(highSchoolStudent.getAge(), is(10));
+        assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));
+        assertThat(highSchoolStudent.getGrade(), is(3));
+    }
+
+    @Test
+    public void testBaseMockAnswer() {
+        PersonPrinter personPrinter = spy(PersonPrinter.class);
+        BaseMockAnswer baseMockAnswer = new BaseMockAnswer();
+        doAnswer(baseMockAnswer).when(personPrinter).printPerson(anyObject());
+        Student student = new Student();
+        student.setPersonPrinter(personPrinter);
+
+        student.doAnswerHighSchoolStudent();
+
+        HighSchoolStudent highSchoolStudent = (HighSchoolStudent) baseMockAnswer.getArguments().get(0);
         assertThat(highSchoolStudent.getId(), is(123456789));
         assertThat(highSchoolStudent.getAge(), is(10));
         assertThat(highSchoolStudent.getName(), is("highSchoolStudent"));

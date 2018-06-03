@@ -19,4 +19,22 @@ public class ExceptionTest {
         personThrowException.noThrowNullPointException();
 
     }
+
+    @Test
+    public void test2(){
+        int total = 0;
+        for(int i=0; i<10;i++){
+            total += 8.28 * getSubTotal(i+1);
+            System.out.println(8.28 * getSubTotal(i+1));
+        }
+        System.out.println(total);
+    }
+
+    public double getSubTotal(int i){
+        double subTotal = 1;
+        for(int j =0; j< i; j++){
+            subTotal = subTotal * (1.15/1.09);
+        }
+        return subTotal;
+    }
 }
