@@ -1,7 +1,13 @@
 package com.staticUsage;
 
 public class ChildClass extends BaseClass {
-    public static int returnValue() {
-        return 1;
+    public static String returnValue() {
+        return "Child";
     }
+
+    public String getNormalMethod(){
+        return "Child Normal";
+    }
+
 }
+
